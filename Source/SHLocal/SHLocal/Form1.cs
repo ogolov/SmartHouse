@@ -4,7 +4,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +34,11 @@ namespace SHLocal
             m_user = user;
         }
         
+        public void setConnected(bool con)
+        {
+            m_connected = con;
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -53,6 +61,11 @@ namespace SHLocal
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            TryToConnect();
+        }
+
+        public void TryToConnect()
+        {
             // Start Running
             StartProgressBar();
             tsslP.Text = "Initalize...";
@@ -73,13 +86,12 @@ namespace SHLocal
                 f.Activate();
                 f.Show();
 
-                while (!this.isActive)
-                { }
 
             }
 
             if (m_connected)
             {
+                allDeviceInHouseDetailesProcTableAdapter.Fill(smarthousedbDataSet.allDeviceInHouseDetailesProc, m_houseID);
                 tsslTD.Text = "Login Time: " + DateTime.Now.ToString("HH:mm:ss tt");
                 tsslP.Text = "Ready";
             }
@@ -132,6 +144,8 @@ namespace SHLocal
                 bool bStatus = radioButton1.Checked;
                 string sDevName = textBox1.Text;
 
+                conn.Open();
+
                 // use the update func
                 SqlDataReader rdr = null;
                 SqlCommand cmd1 = new SqlCommand("deviceDetailesProc", conn);
@@ -143,18 +157,21 @@ namespace SHLocal
                 {
                     SqlCommand cmd2 = new SqlCommand("updateDeviceProc", conn);
                     cmd2.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd2.Parameters.Add(new SqlParameter("@deviceid", rdr.GetValue(0)));
+                    cmd2.Parameters.Add(new SqlParameter("@deviceid", rdr.GetInt32(0)));
                     cmd2.Parameters.Add(new SqlParameter("@devname", sDevName));
                     cmd2.Parameters.Add(new SqlParameter("@status", bStatus));
-                    cmd2.Parameters.Add(new SqlParameter("@param1", rdr.GetValue(3)));
-                    cmd2.Parameters.Add(new SqlParameter("@param2", rdr.GetValue(4)));
-                    cmd2.Parameters.Add(new SqlParameter("@param3", rdr.GetValue(5)));
-                    cmd2.Parameters.Add(new SqlParameter("@param4", rdr.GetValue(6)));
-                    cmd2.Parameters.Add(new SqlParameter("@param5", rdr.GetValue(7)));
+                    cmd2.Parameters.Add(new SqlParameter("@param1", rdr.GetValue(3).ToString()));
+                    cmd2.Parameters.Add(new SqlParameter("@param2", rdr.GetValue(4).ToString()));
+                    cmd2.Parameters.Add(new SqlParameter("@param3", rdr.GetValue(5).ToString()));
+                    cmd2.Parameters.Add(new SqlParameter("@param4", rdr.GetValue(6).ToString()));
+                    cmd2.Parameters.Add(new SqlParameter("@param5", rdr.GetValue(7).ToString()));
+                    rdr.Close();
                     cmd2.ExecuteNonQuery();
                 }
             }
 
+            conn.Close();
+            allDeviceInHouseDetailesProcTableAdapter.Fill(smarthousedbDataSet.allDeviceInHouseDetailesProc, m_houseID);
             StopProgressBar();
         }
 
@@ -166,8 +183,8 @@ namespace SHLocal
             login.Activate();
             login.Show();
 
-            while (!this.isActive)
-            { }
+          //  while (!this.isActive)
+          //  { }
         }
 
         private void StartProgressBar()
@@ -187,7 +204,8 @@ namespace SHLocal
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             m_selectedRow = int.Parse(dataGridView1.SelectedRows[0].Cells[0].Value.ToString());
-            
+
+            conn.Open();
             SqlDataReader rdr = null;
             SqlCommand cmd = new SqlCommand("deviceDetailesProc", conn);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -209,6 +227,8 @@ namespace SHLocal
                     radioButton2.Checked = true;
                 }
             }
+
+            conn.Close();
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -225,7 +245,40 @@ namespace SHLocal
 
         private void listener()
         {
- 
+            NetworkStream clientStream;
+            TcpClient client = new TcpClient();
+            IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 25252);
+            ASCIIEncoding encoder = new ASCIIEncoding();
+            byte[] buffer;
+            
+            while (true)
+            { }
+            client.Connect(serverEndPoint);
+            clientStream = client.GetStream();
+
+            StreamReader sr = new StreamReader(clientStream);
+            
+            while (true)
+            {
+                if (clientStream.DataAvailable)
+                {
+                    while (sr.Peek() != -1)
+                    {
+                        Console.WriteLine(sr.Read());
+
+                        buffer = encoder.GetBytes("OK");
+                        clientStream.Write(buffer, 0, buffer.Length);
+                        clientStream.Flush();
+                    }
+                }
+
+                Thread.Sleep(1000);
+            }
+        }
+
+        private void allDeviceInHouseDetailesProcBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

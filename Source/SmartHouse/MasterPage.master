@@ -11,12 +11,13 @@
 <body>
     <form id="form1" runat="server">
     <div>
-        <asp:Image ID="Image1" runat="server" Height="126px" ImageUrl="~/App_Data/SH-small logo.jpg" Width="105px" />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Label ID="lblUserName" runat="server" Text="Label"></asp:Label>
+        <asp:Image ID="Image1" runat="server" Height="126px" ImageUrl="/App_Data/SH-small logo.jpg" Width="105px" />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+        <br />
+        Hi&nbsp; <asp:Label ID="lblUserName" runat="server" Text="Label"></asp:Label>
 &nbsp;&nbsp;&nbsp;
         
-        &nbsp;<br />
+        &nbsp;,<br />
         <br />
         <br />
         <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">

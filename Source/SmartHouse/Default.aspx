@@ -9,14 +9,13 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    
-        <asp:Image ID="Image1" runat="server" Height="136px" ImageUrl="~/App_Data/SHLogo_width.jpg" Width="797px" />
+        <asp:Image ID="Image1" runat="server" Height="136px" ImageUrl="~/App_Data/SHLogo_width.jpg" Width="797px"/>        
         <br />
         <br />
         <br />
         <asp:Label ID="Label1" runat="server" Text="House ID :"></asp:Label>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:TextBox ID="tbHouse" runat="server"></asp:TextBox>
+        <asp:TextBox ID="tbHouse" runat="server" TextMode="Number"></asp:TextBox>
         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="tbHouse" Display="Dynamic" ErrorMessage="RequiredField" ForeColor="Red">Required field</asp:RequiredFieldValidator>
         <br />
         <br />
@@ -28,7 +27,7 @@
         <br />
         <asp:Label ID="Label3" runat="server" Text="Password : "></asp:Label>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:TextBox ID="tbPass" runat="server"></asp:TextBox>
+        <asp:TextBox ID="tbPass" runat="server" TextMode="Password"></asp:TextBox>
         <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="tbPass" Display="Dynamic" ErrorMessage="RequiredField" ForeColor="Red">Required field</asp:RequiredFieldValidator>
         <br />
         <br />

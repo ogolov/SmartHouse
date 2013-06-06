@@ -44,7 +44,7 @@
             this.btnLogin.Location = new System.Drawing.Point(61, 144);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
-            this.btnLogin.TabIndex = 0;
+            this.btnLogin.TabIndex = 4;
             this.btnLogin.Text = "Login";
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
@@ -67,6 +67,7 @@
             // 
             this.tbPass.Location = new System.Drawing.Point(160, 94);
             this.tbPass.Name = "tbPass";
+            this.tbPass.PasswordChar = '*';
             this.tbPass.Size = new System.Drawing.Size(100, 20);
             this.tbPass.TabIndex = 3;
             // 

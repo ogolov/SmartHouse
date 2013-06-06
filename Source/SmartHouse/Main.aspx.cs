@@ -14,19 +14,25 @@ public partial class Main : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        SqlDataReader rdr = null;
-        SqlCommand cmd = new SqlCommand("houseDetailesProc", conn);
-        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        cmd.Parameters.Add(new SqlParameter("@houseid", int.Parse(Session[m_Common.getSessionUser()].ToString())));
-        rdr = cmd.ExecuteReader();
+        if (!Page.IsPostBack)
+        {
+            conn.Open();
 
-        if (rdr.Read())
-        {
-            Session.Add(m_Common.getSessionHouseIP(), rdr.GetString(2));
-        }
-        else 
-        {
-            Server.Transfer("Defualt.aspx");
+            SqlDataReader rdr = null;
+            SqlCommand cmd = new SqlCommand("houseDetailesProc", conn);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@houseid", int.Parse(Session[m_Common.getSessionHouse()].ToString())));
+            rdr = cmd.ExecuteReader();
+
+            if (rdr.Read())
+            {
+                Session.Add(m_Common.getSessionHouseIP(), rdr.GetString(1));
+            }
+            else
+            {
+                conn.Close();
+                Server.Transfer("Defualt.aspx");
+            }
         }
     }
     protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
@@ -34,7 +40,7 @@ public partial class Main : System.Web.UI.Page
         bool devstat = false;
 
         // Run the stored procdure for getting the specific device data and present it on the items
-        
+        conn.Open();
         SqlDataReader rdr = null;
         SqlCommand cmd = new SqlCommand("deviceDetailesProc", conn);
         cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -57,6 +63,8 @@ public partial class Main : System.Web.UI.Page
         {
             RblStatus.SelectedIndex = 1;
         }
+
+        conn.Close();
     }
     protected void RblStatus_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -65,6 +73,7 @@ public partial class Main : System.Web.UI.Page
         if (RblStatus.SelectedIndex == 1)
             devstat = true;
         // Run the stored procdure for getting the specific device data and present it on the items
+        conn.Open();
         SqlDataReader rdr = null;
         SqlCommand cmd1 = new SqlCommand("deviceDetailesProc", conn);
         cmd1.CommandType = System.Data.CommandType.StoredProcedure;
@@ -78,15 +87,18 @@ public partial class Main : System.Web.UI.Page
             cmd2.Parameters.Add(new SqlParameter("@deviceid",rdr.GetInt32(0)));
             cmd2.Parameters.Add(new SqlParameter("@devname",rdr.GetString(1)));
             cmd2.Parameters.Add(new SqlParameter("@status",devstat));
-            cmd2.Parameters.Add(new SqlParameter("@param1",rdr.GetString(3)));
-            cmd2.Parameters.Add(new SqlParameter("@param2", rdr.GetString(4)));
-            cmd2.Parameters.Add(new SqlParameter("@param3", rdr.GetString(5)));
-            cmd2.Parameters.Add(new SqlParameter("@param4", rdr.GetString(6)));
-            cmd2.Parameters.Add(new SqlParameter("@param5", rdr.GetString(7)));
+            cmd2.Parameters.Add(new SqlParameter("@param1",rdr.GetValue(3).ToString()));
+            cmd2.Parameters.Add(new SqlParameter("@param2", rdr.GetValue(4).ToString()));
+            cmd2.Parameters.Add(new SqlParameter("@param3", rdr.GetValue(5).ToString()));
+            cmd2.Parameters.Add(new SqlParameter("@param4", rdr.GetValue(6).ToString()));
+            cmd2.Parameters.Add(new SqlParameter("@param5", rdr.GetValue(7).ToString()));
+
+            rdr.Close();
             cmd2.ExecuteNonQuery();
         }
 
-        deviceUpdated(rdr.GetInt32(0), rdr.GetString(1), devstat, rdr.GetString(3), rdr.GetString(4), rdr.GetString(5), rdr.GetString(6), rdr.GetString(7));
+        conn.Close();
+        //deviceUpdated(rdr.GetInt32(0), rdr.GetString(1), devstat, rdr.GetString(3), rdr.GetString(4), rdr.GetString(5), rdr.GetString(6), rdr.GetString(7));
     }
 
     private void deviceUpdated(int devid, string name, bool devstat, string param1, string param2, string param3,

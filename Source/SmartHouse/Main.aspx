@@ -8,7 +8,7 @@
     <br />
     <asp:Label ID="Label1" runat="server" Text="Devices in my house:"></asp:Label>
 &nbsp;
-    <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="smarthousedb" DataTextField="devname" DataValueField="deviceid" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
+    <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="smarthousedb" DataTextField="devname" DataValueField="deviceid" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged" AutoPostBack="True">
     </asp:DropDownList>
     <asp:SqlDataSource ID="smarthousedb" runat="server" ConnectionString="<%$ ConnectionStrings:smarthousedbConnectionString %>" SelectCommand="getDevicenameByHouseidProc" SelectCommandType="StoredProcedure">
         <SelectParameters>
@@ -20,7 +20,7 @@
     <asp:Panel ID="Panel1" runat="server">
         <asp:Label ID="Label2" runat="server" Text="Device status:"></asp:Label>
         &nbsp;&nbsp;&nbsp;
-        <asp:RadioButtonList ID="RblStatus" runat="server" RepeatDirection="Horizontal" Width="133px" OnSelectedIndexChanged="RblStatus_SelectedIndexChanged">
+        <asp:RadioButtonList ID="RblStatus" runat="server" RepeatDirection="Horizontal" Width="133px" OnSelectedIndexChanged="RblStatus_SelectedIndexChanged" AutoPostBack="True">
             <asp:ListItem>On</asp:ListItem>
             <asp:ListItem>Off</asp:ListItem>
         </asp:RadioButtonList>

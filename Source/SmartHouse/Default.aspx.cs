@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -13,7 +14,7 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        
     }
     protected void Login1_Authenticate(object sender, AuthenticateEventArgs e)
     {
@@ -24,6 +25,7 @@ public partial class _Default : System.Web.UI.Page
     {
         // get all the data and valid it using sotred procdure
         SqlDataReader rdr = null;
+        conn.Open();
         SqlCommand cmd = new SqlCommand("loginProc", conn);
         cmd.CommandType = System.Data.CommandType.StoredProcedure;
         cmd.Parameters.Add(new SqlParameter("@houseid", tbHouse.Text));
@@ -37,6 +39,8 @@ public partial class _Default : System.Web.UI.Page
             Session.Add(m_Common.getSessionHouse(), tbHouse.Text);
             Session.Add(m_Common.getSessionUser(), tbUser.Text);
 
+            conn.Close();
+
             Server.Transfer("Main.aspx");
         }
         else
@@ -45,5 +49,6 @@ public partial class _Default : System.Web.UI.Page
             lblErr.Visible = true;
         }
         
+        conn.Close();
     }
 }

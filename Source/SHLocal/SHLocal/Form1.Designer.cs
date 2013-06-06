@@ -59,10 +59,23 @@
             this.label2 = new System.Windows.Forms.Label();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.deviceidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.devnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.statusDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.param1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.param2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.param3DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.param4DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.param5DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.allDeviceInHouseDetailesProcBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.smarthousedbDataSet = new SHLocal.smarthousedbDataSet();
+            this.allDeviceInHouseDetailesProcTableAdapter = new SHLocal.smarthousedbDataSetTableAdapters.allDeviceInHouseDetailesProcTableAdapter();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.allDeviceInHouseDetailesProcBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.smarthousedbDataSet)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -219,13 +232,24 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.deviceidDataGridViewTextBoxColumn,
+            this.devnameDataGridViewTextBoxColumn,
+            this.statusDataGridViewCheckBoxColumn,
+            this.param1DataGridViewTextBoxColumn,
+            this.param2DataGridViewTextBoxColumn,
+            this.param3DataGridViewTextBoxColumn,
+            this.param4DataGridViewTextBoxColumn,
+            this.param5DataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.allDeviceInHouseDetailesProcBindingSource;
             this.dataGridView1.Location = new System.Drawing.Point(28, 45);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(638, 281);
             this.dataGridView1.TabIndex = 4;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // groupBox1
             // 
@@ -331,6 +355,69 @@
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
+            // deviceidDataGridViewTextBoxColumn
+            // 
+            this.deviceidDataGridViewTextBoxColumn.DataPropertyName = "deviceid";
+            this.deviceidDataGridViewTextBoxColumn.HeaderText = "deviceid";
+            this.deviceidDataGridViewTextBoxColumn.Name = "deviceidDataGridViewTextBoxColumn";
+            // 
+            // devnameDataGridViewTextBoxColumn
+            // 
+            this.devnameDataGridViewTextBoxColumn.DataPropertyName = "devname";
+            this.devnameDataGridViewTextBoxColumn.HeaderText = "devname";
+            this.devnameDataGridViewTextBoxColumn.Name = "devnameDataGridViewTextBoxColumn";
+            // 
+            // statusDataGridViewCheckBoxColumn
+            // 
+            this.statusDataGridViewCheckBoxColumn.DataPropertyName = "status";
+            this.statusDataGridViewCheckBoxColumn.HeaderText = "status";
+            this.statusDataGridViewCheckBoxColumn.Name = "statusDataGridViewCheckBoxColumn";
+            // 
+            // param1DataGridViewTextBoxColumn
+            // 
+            this.param1DataGridViewTextBoxColumn.DataPropertyName = "param1";
+            this.param1DataGridViewTextBoxColumn.HeaderText = "param1";
+            this.param1DataGridViewTextBoxColumn.Name = "param1DataGridViewTextBoxColumn";
+            // 
+            // param2DataGridViewTextBoxColumn
+            // 
+            this.param2DataGridViewTextBoxColumn.DataPropertyName = "param2";
+            this.param2DataGridViewTextBoxColumn.HeaderText = "param2";
+            this.param2DataGridViewTextBoxColumn.Name = "param2DataGridViewTextBoxColumn";
+            // 
+            // param3DataGridViewTextBoxColumn
+            // 
+            this.param3DataGridViewTextBoxColumn.DataPropertyName = "param3";
+            this.param3DataGridViewTextBoxColumn.HeaderText = "param3";
+            this.param3DataGridViewTextBoxColumn.Name = "param3DataGridViewTextBoxColumn";
+            // 
+            // param4DataGridViewTextBoxColumn
+            // 
+            this.param4DataGridViewTextBoxColumn.DataPropertyName = "param4";
+            this.param4DataGridViewTextBoxColumn.HeaderText = "param4";
+            this.param4DataGridViewTextBoxColumn.Name = "param4DataGridViewTextBoxColumn";
+            // 
+            // param5DataGridViewTextBoxColumn
+            // 
+            this.param5DataGridViewTextBoxColumn.DataPropertyName = "param5";
+            this.param5DataGridViewTextBoxColumn.HeaderText = "param5";
+            this.param5DataGridViewTextBoxColumn.Name = "param5DataGridViewTextBoxColumn";
+            // 
+            // allDeviceInHouseDetailesProcBindingSource
+            // 
+            this.allDeviceInHouseDetailesProcBindingSource.DataMember = "allDeviceInHouseDetailesProc";
+            this.allDeviceInHouseDetailesProcBindingSource.DataSource = this.smarthousedbDataSet;
+            this.allDeviceInHouseDetailesProcBindingSource.CurrentChanged += new System.EventHandler(this.allDeviceInHouseDetailesProcBindingSource_CurrentChanged);
+            // 
+            // smarthousedbDataSet
+            // 
+            this.smarthousedbDataSet.DataSetName = "smarthousedbDataSet";
+            this.smarthousedbDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // allDeviceInHouseDetailesProcTableAdapter
+            // 
+            this.allDeviceInHouseDetailesProcTableAdapter.ClearBeforeFill = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -352,6 +439,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.allDeviceInHouseDetailesProcBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.smarthousedbDataSet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -389,6 +478,17 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.ToolStripMenuItem localSettingToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn deviceidDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn devnameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn statusDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn param1DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn param2DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn param3DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn param4DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn param5DataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource allDeviceInHouseDetailesProcBindingSource;
+        private smarthousedbDataSet smarthousedbDataSet;
+        private smarthousedbDataSetTableAdapters.allDeviceInHouseDetailesProcTableAdapter allDeviceInHouseDetailesProcTableAdapter;
     }
 }
 

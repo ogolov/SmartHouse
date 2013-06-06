@@ -29,12 +29,13 @@ namespace SHLocal
         {
             SqlDataReader rdr = null;
             SqlConnection conn = new SqlConnection("Data Source=BLAZE-PC\\SQLEXPRESS;Initial Catalog=smarthousedb;Integrated Security=True");
-            SqlCommand cmd = new SqlCommand("loginProc", conn);
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("[dbo].[loginProc]", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add(new SqlParameter("@houseid",int.Parse(tbHouse.Text)));
             cmd.Parameters.Add(new SqlParameter("@user",tbUser.Text));
             cmd.Parameters.Add(new SqlParameter("@password",tbPass.Text));
-
+            
             rdr = cmd.ExecuteReader();
 
             if (!rdr.Read())
@@ -46,8 +47,13 @@ namespace SHLocal
                 //return the id back to the father form
                 m_form.setHouseID(int.Parse(tbHouse.Text));
                 m_form.setUser(tbUser.Text);
+                m_form.setConnected(true);
+                conn.Close();
+                m_form.TryToConnect();
                 this.Close();
             }
+
+            conn.Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
